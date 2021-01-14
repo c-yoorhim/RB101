@@ -10,14 +10,7 @@ GET the loan duration, months
   confirm?
 
 PRINT monthly payment
-GET calculate again or exit
 
-m = p * (j / (1 - (1 + j)**(-n)))
-
-m = monthly payment
-p = loan amount
-j = monthly interest rate
-n = loan duration in months
 =end
 
 #method for all prompts
@@ -26,31 +19,91 @@ def prompt(message)
 end
 
 #PRINT GREETING and GET name
-prompt("What is your name?")
+prompt("Hi, there. What is your name?")
 user_name = Kernel.gets().chomp()
 
-#1st loop here
+# 1st loop here
 loop do
-  prompt("Hello, #{user_name.capitalize()}. Would you like to calculate your monthly mortgage payment? [y/n]")
+  prompt("#{user_name.capitalize()}, Would you like to calculate your monthly mortgage payment? [y/n]")
   response = Kernel.gets().chomp().downcase()
 
   if response.start_with?("y") #do rest
-    puts "working." 
-=begin    
-      #validate number for all input
-        def valid_number?(input)
-          input.to_i.to_s == input || input.to_f.to_s == input
-        end
-      #GET the loan amount loop 
-      loop do
-      Kernel.puts("=>What is your loan amount?")
-      loan_amount = Kernel.gets().chomp
+    #validate number for all input
+    def valid_number?(input)
+      input.to_i.to_s == input || input.to_f.to_s == input
+    end
 
-    #If valid number, GET the Annual Percentage Rate (APR), in percentage
-    if valid_number?(loan_amount)
-      Kernel.puts("=>What's your APR for the loan amount?") 
-    else 
-=end  
-  else break #break out of first loop
+    loan_amount_input = ''
+    # GET the loan amount loop 
+    loop do
+      prompt("What is your loan amount?")
+      loan_amount_input = Kernel.gets().chomp
+
+      # If valid number, break
+      if valid_number?(loan_amount_input)
+        break
+      else prompt("That is not a valid loan amount.")
+      end
+    end # end loan amount loop
+
+    apr_percentage_input =''
+    # GET the Annual Percentage Rate (APR), in percentage loop
+    loop do
+      prompt("What's your APR for the loan amount (in percentage)?")
+      apr_percentage_input = Kernel.gets().chomp
+      
+      # If valid number, confirm, break
+      if valid_number?(apr_percentage_input)
+        prompt("Is your APR: #{apr_percentage_input}%? [y/n]")
+        # If y, break else loop
+        apr_confirm = Kernel.gets().chomp().downcase()
+        if apr_confirm.start_with?("y") #do rest   
+          break
+        else prompt("Please make sure that you are providing the APR in percentage format.")
+        end  
+      else prompt("That is not a valid APR.")
+      end
+    end # end apr loop
+    
+    loan_duration_input = ''
+    loan_duration_months = ''
+    # GET the loan duration loop 
+    loop do
+      prompt("What is your loan duration in months?")
+      loan_duration_input = Kernel.gets().chomp
+      loan_duration_months = loan_duration_input.to_f
+      loan_duration_years = loan_duration_months/12 
+
+      # If valid number, confirm, break
+      if valid_number?(loan_duration_input)
+        prompt("Is your loan duration #{loan_duration_input} months or #{loan_duration_years.to_i} year(s)? [y/n]")
+        # If y, break else loop
+        duration_confirm = Kernel.gets().chomp().downcase()
+        if duration_confirm.start_with?("y") #do rest   
+          break
+        else prompt("Please make sure that you are providing the loan duration in months.")
+        end  
+      else prompt("That is not a valid loan duration.")
+      end
+    end # end loan duration loop
+  
+    # calculate monthly mortgage payment
+    loan_amount = loan_amount_input.to_f
+    monthly_rate = (apr_percentage_input.to_f/100)/12
+    (loan_duration_months*-1)
+    
+    monthly_payment = (loan_amount * monthly_rate) / ( 1 - ( 1 + monthly_rate )**(-loan_duration_months))
+
+    result = <<-MSG
+    Loan amount: $#{loan_amount}
+    Annual Percentage Rate: #{apr_percentage_input.to_f}%
+    Loan Duration: #{loan_duration_months.to_i} months
+    Monthly mortgage payment: $#{monthly_payment}
+    MSG
+
+    Kernel.puts(result)
+
+  else break # break out of app loop
   end
-end #end first loop
+
+end # end first loop
