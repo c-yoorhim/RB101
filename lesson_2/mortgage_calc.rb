@@ -100,7 +100,8 @@ loop do
     Loan Duration: #{loan_duration_months.to_i} months
     Monthly mortgage payment: $#{monthly_payment}
     MSG
-
+    # look into kernel#format
+    
     Kernel.puts(result)
 
   else break # break out of app loop

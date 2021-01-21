@@ -1,4 +1,14 @@
+#add => infront of every prompt
+
+def prompt(message)
+  Kernel.puts("=> #{message}")
+end
+
 #asks for two numbers; convert to integer
+#loop for valid number
+def valid_number?(num)
+  num.to_i != 0
+#loop for calculating again
 
 Kernel.puts("Provide first number.")
 first_num = Kernel.gets().chomp().to_i()
@@ -22,6 +32,7 @@ loop do
   when "multiply"
     Kernel.puts(first_num*second_num)
     break
+#float?
   when "divide"
     if second_num == 0
       Kernel.puts("You cannot divide by 0.")

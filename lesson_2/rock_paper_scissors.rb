@@ -4,6 +4,7 @@ VALID_CHOICES = { r: "rock",
                   l: "lizard",
                   sp: "spock" }
 
+# think about how to simplify this
 def win?(first, second)
   (first == 'rock' && (second == 'scissors' || second == 'lizard')) ||
     (first == 'paper' && (second == 'rock' || second == 'spock')) ||
