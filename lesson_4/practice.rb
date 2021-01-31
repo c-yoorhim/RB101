@@ -20,4 +20,4 @@ def reverse_str(string)
   reverse_string
 end 
 
-p reverse_str("hello")
+p reverse_str("hello")qw\ kp\\n0
