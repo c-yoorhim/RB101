@@ -267,3 +267,47 @@ end
 titleize(words)
 words == "The Flintstones Rock"
 
+=begin
+Problem 10
+Input: Hash
+Output: Same hash
+Explicit 
+- Modify the hash such that:
+  - each member of the Munster family has an additional "age_group" key
+  - the additional key has one of three values describing the age group the family member is in (kid, adult, or senior)
+Implicit:
+- kid = < 18 years
+- adult = >= 18
+- senior > 64
+
+Algorithm:
+- iterate through each value
+- look at the "age" key of each value
+- select the category based on the age
+- create a new key "age_group"
+- add category to the "age_group" key
+=end
+
+munsters = {
+  "Herman" => { "age" => 32, "gender" => "male" },
+  "Lily" => { "age" => 30, "gender" => "female" },
+  "Grandpa" => { "age" => 402, "gender" => "male" },
+  "Eddie" => { "age" => 10, "gender" => "male" },
+  "Marilyn" => { "age" => 23, "gender" => "female"}
+}
+
+munsters.each_value do |info|
+  case
+  when  info["age"] < 18 #instead of writing out info["age"], I can use range notation
+    info["age_group"] = "kid"
+  when  info["age"] > 64
+    info["age_group"] = "senior"
+  else info["age_group"] = "adult" 
+  end
+end
+
+p munsters == { "Herman" => { "age" => 32, "gender" => "male", "age_group" => "adult" },
+"Lily" => {"age" => 30, "gender" => "female", "age_group" => "adult" },
+"Grandpa" => { "age" => 402, "gender" => "male", "age_group" => "senior" },
+"Eddie" => { "age" => 10, "gender" => "male", "age_group" => "kid" },
+"Marilyn" => { "age" => 23, "gender" => "female", "age_group" => "adult" } }
