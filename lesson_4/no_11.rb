@@ -179,14 +179,91 @@ Algorithm:
 - loop through each element
 - keep only the first 3 letters
   - convert to array
-  -keep_if index <= 3
+  -keep_if index < 3
   -convert back to string
 
 =end
 
-#why isn't it working for index of flintstones after 2??
-flintstones.map! do |name|
-  new_name = name.chars.keep_if {|letter| name.chars.index(letter) <= 2}
-  new_name.join
+# why isn't it working for index of flintstones after 2??
+# oh no! It's not giving me the unique index position of repeated letters!
+
+# flintstones.map! do |name|
+#   name_letters = name.chars
+#   new_name = name_letters.keep_if {|letter| name_letters.index(letter) < 3 }
+#   new_name.join("")
+# end
+# p flintstones
+
+flintstones.map { |name| name[0,3] }
+# so much more elegant.... 
+
+=begin
+Problem 7
+Input: String
+Output: hash
+Explicit: Create a hash that expresses the frequency with which each letter occurs in given string
+Implicit: Don't count spaces
+
+Data: "hello"
+{
+  h: 1
+  e: 1
+  l: 2
+  o: 1
+}
+
+Algorithm:
+- create a new hash
+- turn string into array
+- loop through each letter
+- check if letter is a key
+- if not,
+  - add first letter as key
+  - add value for first letter as 1
+- if key exist,
+  - add 1 to the existing value
+=end
+
+statement = "The Flintstones Rock"
+letter_count = {}
+statement.chars.each_with_object(letter_count) do |letter, hash|
+  next if letter == " "
+  if hash.has_key?(letter)
+    hash[letter] += 1
+  else hash[letter] = 1
+  end
 end
- p flintstones
+letter_count
+
+# Problem 9
+=begin
+Input: String
+Output: Same String
+Explicit: 
+- Capitalize first letter of each word delimited by spaces
+Implicit:
+- Modify the original str
+
+Algorithm:
+- convert string to array
+- loop through each element and capitalize
+- Convert back to string
+- replace capitalize word in str
+
+=end
+words = "the flintstones rock"
+def titleize(str)
+  capitalized_words = str.split(" ").map {|word| word.capitalize }
+  new_str = capitalized_words.join(" ")
+  
+  counter = 0
+  loop do
+    break if counter == str.size - 1 
+    str[counter] = new_str[counter]
+    counter += 1
+  end
+end
+
+titleize(words)
+words == "The Flintstones Rock"
+
