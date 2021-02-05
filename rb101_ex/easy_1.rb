@@ -103,3 +103,111 @@ end
 # puts digit_list(375290) == [3, 7, 5, 2, 9, 0] # => true
 # puts digit_list(444) == [4, 4, 4]             # => true
 
+=begin
+Problem 4
+Input: array
+Output: hash
+
+Explicit Rule:
+- counts the number of occurrences of each element in a given array.
+- words in the array are case-sensitive: 'suv' != 'SUV'
+- Once counted, print each element alongside the number of occurrences.
+
+Algorithm:
+- create a new hash 
+- loop through each element in array
+  - if element of array is a key in the hash
+    - do nothing
+  - else 
+    - add element as new key in hash
+    - add the count of element as value
+-return hash
+=end
+
+vehicles = [
+  'car', 'car', 'truck', 'car', 'SUV', 'suv', 'truck',
+  'motorcycle', 'motorcycle', 'car', 'truck'
+]
+
+def count_occurrences(given_arr)
+  counted_elements = {}
+
+  given_arr.each do |element|      
+    if counted_elements.has_key?(element)
+      next
+    else counted_elements[element] = given_arr.count(element)
+    end
+  end 
+  
+  counted_elements   
+end
+
+count_occurrences(vehicles) #== {
+# 'car' => 4,
+# 'truck' => 3,
+# 'SUV' => 1,
+# 'motorcycle' => 2
+# }
+
+=begin
+Problem 5: Reverse It (Part 1)
+Input: string
+Output: new string
+Explicit: 
+- new string has words in reverse order
+Implicit:
+- word itself is not reversed
+- only the order of the word is reversed
+- empty returns empty
+- capitalization is retained
+Algorithm:
+- convert wordsinto array using spaces as deliminater
+- reverse the order of the words
+- convert back to string with spaces
+=end
+
+def reverse_sentence(str)
+  str.split(" ").reverse.join(" ")
+end
+
+# puts reverse_sentence('') == ''
+# puts reverse_sentence('Hello World') == 'World Hello'
+# puts reverse_sentence('Reverse these words') == 'words these Reverse'
+
+=begin
+Problem 6: Reverse It (Part 2)
+Input: string 
+Output: string
+
+Explicit rules:
+- string contains one or more words
+- retruned string reverses words that contain five or more characters
+- Each string will consist of only letters and spaces
+- Spaces should be included only when more than one word is present
+
+Algorithm
+- convert str to array of words
+- iterate through each word in the str
+- if word.size > 4
+  -transform word by: reverse letters in the word
+- join words using spaces
+=end
+
+def reverse_words(str)
+  str.split.map do |word| 
+    
+    if word.size > 4
+      word.reverse
+    else word
+    end
+
+  end.join(" ")
+end
+
+# puts reverse_words('Professional') == 'lanoisseforP'
+# puts reverse_words('Walk around the block') == 'Walk dnuora the kcolb'
+# puts reverse_words('Launch School') == 'hcnuaL loohcS'
+
+=begin
+Problem 7:
+=end
