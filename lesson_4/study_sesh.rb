@@ -21,19 +21,28 @@ Algorithm
 - sum the remaining integers in the array
 =end
 
+# def sum_of_integers(str)
+#   integers_in_str = []
+#   str.each_char do |char|
+#     if char.to_i.to_s == char
+#       integers_in_str << char
+#     else integers_in_str << "-" 
+#     end
+#   end  
+#   only_integers = integers_in_str.join.split("-")
+#   if only_integers == []
+#     0
+#   else only_integers.inject {| sum, x | sum.to_i + x.to_i }
+#   end
+# end
+
+# Joe's refactoring
 def sum_of_integers(str)
   integers_in_str = []
-  str.each_char do |char|
-    if char.to_i.to_s == char
-      integers_in_str << char
-    else integers_in_str << "-" 
-    end
-  end  
-  only_integers = integers_in_str.join.split("-")
-  if only_integers == []
-    0
-  else only_integers.inject {| sum, x | sum.to_i + x.to_i }
-  end
+	str.each_char do |char|
+		integers_in_str << ((char.to_i.to_s == char) ? char : "-")
+	end 
+	integers_in_str.join.split("-").map(&:to_i).sum
 end
 
 p sum_of_integers('h3110 w0r1d') == 3111

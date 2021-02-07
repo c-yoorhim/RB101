@@ -209,5 +209,37 @@ end
 # puts reverse_words('Launch School') == 'hcnuaL loohcS'
 
 =begin
-Problem 7:
+Problem 7: Stringy Strings
+Input: a positive integer
+Output: a string
+Explicit rules:
+- take integer and return string of alternating 1s and 0s:
+  - always starting with 1
+  - length of the string should match the given integer.
+Question:
+- 0 outputs ''?
+Data:
+integer
+string
+
+Algorithm:
+-create an empty string
+-if number > 0 [repeat number times]
+  -add '1'
+  -add '0'
+-return string
 =end
+
+def stringy(int, start = 1)
+  binary_str = ''
+  for int in (start..int)
+    binary_str << "1" if int.odd?
+    binary_str << "0" if int.even?
+  end
+  binary_str
+end
+
+puts stringy(6,0)# == '101010'
+puts stringy(9) == '101010101'
+puts stringy(4) == '1010'
+puts stringy(7) == '1010101'
