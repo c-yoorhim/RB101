@@ -239,7 +239,82 @@ def stringy(int, start = 1)
   binary_str
 end
 
-puts stringy(6,0)# == '101010'
-puts stringy(9) == '101010101'
-puts stringy(4) == '1010'
-puts stringy(7) == '1010101'
+# puts stringy(6,0)# == '101010'
+# puts stringy(9) == '101010101'
+# puts stringy(4) == '1010'
+# puts stringy(7) == '1010101'
+
+=begin
+Problem 8: Array Average
+Input: an array (containing integers)
+Output: integer (average of all numbers in array)
+Explicit rules:
+-method takes 1 argument, an array containing integers, 
+-returns the average of all numbers in the array. 
+-The array will never be empty 
+-and the numbers will always be positive integers.
+-result should also be an integer.
+Data:
+-array
+-integer
+
+Algorithem:
+-get sum of the elements in array
+-divide sum with size of the array
+=end
+
+def average(arr)
+  arr.sum.to_f / arr.size
+end
+
+# puts average([1, 6])# == 3 # integer division: (1 + 6) / 2 -> 3
+# puts average([5,6])
+# puts average([1, 5, 87, 45, 8, 8]) == 25
+# puts average([9, 47, 23, 95, 16, 52]) == 40
+
+=begin
+Problem 9: Sum of Digits
+Input: pos int
+Output: integer
+Explicit rules:
+- method that takes one argument, a positive integer
+- returns the sum of its digits
+Data:
+-int
+-array
+Algorithm:
+-convert number to string
+-convert to array
+-convert elements to numbesr
+-sum all digits
+=end
+
+def sum (num)
+  num.to_s.split(//).reduce { |sum, n| sum.to_i + n.to_i }
+end
+
+# puts sum(23) == 5
+# puts sum(496) == 19
+# puts sum(123_456_789) == 45
+
+=begin
+Problem 10: What's my bonus
+Input: pos int, boolean
+Output: int
+Explicit:
+-method that takes two arguments, a positive integer and a boolean
+-calculates the bonus for a given salary
+  -If the boolean is true, the bonus should be half of the salary
+  -If the boolean is false, the bonus should be 0.
+Data:
+int
+boolean
+=end
+
+def calculate_bonus(salary, condition)
+  condition ? (salary / 2) : 0
+end
+
+puts calculate_bonus(2800, true) == 1400
+puts calculate_bonus(1000, false) == 0
+puts calculate_bonus(50000, true) == 25000
