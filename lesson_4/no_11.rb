@@ -187,14 +187,14 @@ Algorithm:
 # why isn't it working for index of flintstones after 2??
 # oh no! It's not giving me the unique index position of repeated letters!
 
-# flintstones.map! do |name|
-#   name_letters = name.chars
-#   new_name = name_letters.keep_if {|letter| name_letters.index(letter) < 3 }
-#   new_name.join("")
-# end
-# p flintstones
+flintstones.map! do |name|
+  name_letters = name.chars
+  new_name = name_letters.keep_if { name_letters.fetch(0..3)} 
+  new_name.join("")
+end
+p flintstones
 
-flintstones.map { |name| name[0,3] }
+#flintstones.map { |name| name[0,3] }
 # so much more elegant.... 
 
 =begin
@@ -306,7 +306,7 @@ munsters.each_value do |info|
   end
 end
 
-p munsters == { "Herman" => { "age" => 32, "gender" => "male", "age_group" => "adult" },
+munsters == { "Herman" => { "age" => 32, "gender" => "male", "age_group" => "adult" },
 "Lily" => {"age" => 30, "gender" => "female", "age_group" => "adult" },
 "Grandpa" => { "age" => 402, "gender" => "male", "age_group" => "senior" },
 "Eddie" => { "age" => 10, "gender" => "male", "age_group" => "kid" },
