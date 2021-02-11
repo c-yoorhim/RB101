@@ -45,4 +45,66 @@ def room_size
   puts "The area of the room is #{area_m} square meters (#{area_ft.ceil(2)} square feet)."
 end
 
-room_size
+# room_size
+
+=begin 
+Problem 3: Tip Calculator
+Explicit:
+- prompt for a bill amount and a tip rate. 
+- compute the tip
+- display both the tip and the total amount of the bill.
+
+Example:
+What is the bill? 200
+What is the tip percentage? 15
+
+The tip is $30.0
+The total is $230.0
+
+=end
+
+def calc_tip
+  print "What is the bill? "
+  bill = gets.chomp.to_f
+
+  print "What is the tip percentage? "
+  percentage = gets.chomp.to_f/100
+
+  tip = bill * percentage
+
+  puts "The tip is $#{tip.round(2)}."
+  puts "The total is $#{(bill + tip).round(2)}."
+end
+
+#calc_tip
+
+=begin
+Problem 4: When will I Retire?
+Explicit:
+- displays when the user will retire
+- displays how many years she has to work till retirement
+
+Example 
+What is your age? 30
+At what age would you like to retire? 70
+
+It's 2016. You will retire in 2056.
+You have only 40 years of work to go!
+=end
+
+def retirement_calc
+  print "What is your age? "
+  age = gets.chomp.to_i
+  print "At what age would you like to retire? "
+  retire_age = gets.chomp.to_i
+
+  require 'date'
+  current_year = Date.today.year
+  years_to_retirement = retire_age - age  
+  retire_year = current_year + years_to_retirement 
+  
+  puts "It's #{Date.today.year}. You will retire in #{retire_year}."
+  puts "You have only #{years_to_retirement} years of work to go!"
+end
+
+retirement_calc
