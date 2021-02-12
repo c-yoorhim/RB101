@@ -107,4 +107,139 @@ def retirement_calc
   puts "You have only #{years_to_retirement} years of work to go!"
 end
 
-retirement_calc
+# retirement_calc
+=begin
+Problem 5: Greeting a user
+Explicit: 
+- ask for user's name
+- greet the user
+- If the user writes "name!" then the computer yells back to the user.
+
+Example: 
+What is your name? Bob
+Hello Bob.
+
+What is your name? Bob!
+HELLO BOB. WHY ARE WE SCREAMING?
+=end
+
+def greeting
+  print "What is your name? "
+  name = gets.chomp
+  name_arr = name.chars
+  last_char = name_arr.last
+
+  if last_char == "!"
+    just_name = name_arr.reject { |char| char == "!"}.join
+    print "HELLO #{just_name.upcase}. WHY ARE WE SCREAMING?"
+  elsif
+    print "Hello #{name}."
+  end
+end
+
+# greeting
+
+=begin
+Problem 6: Odd Numbers; Even Numbers
+Explicit: 
+- Print all odd/even numbers from 1 to 99, inclusive, to the console
+- Each number on a separate line.
+=end
+
+#(1..99).each { |n| puts n if n.odd? }
+#(1..99).each { |n| puts n if n.even? }
+
+=begin
+Problem 8: Sum or Product of Consecutive Integers 
+Explicit: 
+- asks the user to enter an integer greater than 0
+- then asks if the user wants to determine the sum or product of all numbers between 1 and the entered integer.
+
+Example: 
+>> Please enter an integer greater than 0:
+5
+>> Enter 's' to compute the sum, 'p' to compute the product.
+s
+The sum of the integers between 1 and 5 is 15.
+
+
+>> Please enter an integer greater than 0:
+6
+>> Enter 's' to compute the sum, 'p' to compute the product.
+p
+The product of the integers between 1 and 6 is 720.
+
+Algorithm:
+- Add a prompt format
+- Prompt for a int
+- Get int
+- Verify it is an integer; ifnot, ask again
+- Prompt for action
+- Get action
+- Verify action;if not ask again
+- Do the math
+- print answer
+
+=end
+
+def prompt(str)
+  puts ">> #{str}"
+end
+
+def integer?(str)
+  if str.to_i.to_s == str
+    true
+  end
+end
+
+def sum_product?(str)
+  if str == "s"
+    true
+  elsif str == "p"
+    true
+  end
+end
+
+def sum_or_product
+  loop do 
+    prompt("Please enter an integer greater than 0:")
+    
+    loop do
+      user_int = gets.chomp
+
+      if integer?(user_int)
+        loop do 
+          prompt("Enter 's' to compute the sum, 'p' to compute the product.")
+          user_action = gets.chomp
+
+          if sum_product?(user_action)
+            int = user_int.to_i
+            case user_action
+            when "s"
+              prompt("The sum of the integers between 1 and #{user_int} is #{(0..int).sum}")
+            when "p"
+              product = (1..int).inject(:*)
+              prompt("The product of the integers between 1 and #{user_int} is #{product}.")
+              break
+            end
+          else
+            prompt("Not a valid entry.")
+            break
+          end
+          break
+        end
+
+      else 
+        prompt("Not a valid entry.")
+        break
+      end
+      break
+    end
+
+    prompt("Would you like to start over? y/n")
+    user_answer = gets.chomp
+    break if user_answer == "n"
+  end
+end
+
+#sum_or_product
