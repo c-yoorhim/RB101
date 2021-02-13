@@ -43,8 +43,12 @@ def palindrome(num, s)
   end
 end
 
-p palindrome(101, 5) ==  [101, 111, 121, 131, 141]
-p palindrome("num", 0) == "Not valid"
-p palindrome(4, 0) == []
-p palindrome(2, "s") == "Not valid"
-p palindrome(-1, 3) == "Not valid"
+p palindrome(6,4)  == [11,22,33,44]
+p palindrome(75,1) == [77]
+p palindrome(101,2) == [101,111]
+p palindrome(20,0) == []
+p palindrome(0,4) == [11,22,33,44]
+p palindrome("ACCDDCCA",3) == "Not valid"
+p palindrome(773,"1551") == "Not valid"
+p palindrome(-4505,15) == "Not valid"
+p palindrome(4505,-15) == "Not valid"
