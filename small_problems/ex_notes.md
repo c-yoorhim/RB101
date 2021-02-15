@@ -1,4 +1,4 @@
-# Exercise Tips
+## Exercise Tips
 
 *General*
 - Code with intent; don't method hunt
