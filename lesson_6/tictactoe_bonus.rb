@@ -82,21 +82,34 @@ def player_places_piece!(brd)
   brd[square] = PLAYER_MARKER
 end
 
-def computer_defense_req?(brd)
+def computer_strategy_req?(brd)
+  strategy_line = []
   WINNING_LINES.each do |line|
-    if (brd.values_at(*line).count(PLAYER_MARKER) == 2) &&
-       (brd.values_at(*line).count(COMPUTER_MARKER) == 0)
-      return line
+    if (brd.values_at(*line).count(COMPUTER_MARKER) == 2) &&
+       (brd.values_at(*line).count(PLAYER_MARKER) == 0)
+      strategy_line = line
+      return strategy_line   
+    end
+  end 
+  
+  if strategy_line == []
+    WINNING_LINES.each do |line|
+      if (brd.values_at(*line).count(PLAYER_MARKER) == 2) &&
+         (brd.values_at(*line).count(COMPUTER_MARKER) == 0)
+        strategy_line = line
+        return strategy_line
+      end
     end
   end
+
   nil
 end
 
 def computer_places_piece!(brd)
-  if computer_defense_req?(brd) == nil
+  if computer_strategy_req?(brd) == nil
     square = empty_square(brd).sample
   else
-    square = computer_defense_req?(brd).select { |position| brd[position] == INITIAL_MARKER }.pop
+    square = computer_strategy_req?(brd).select { |position| brd[position] == INITIAL_MARKER }.pop
   end
   brd[square] = COMPUTER_MARKER
 end
@@ -158,16 +171,18 @@ Computer Defense AI
 Explicit:
 - if there are to be 2 squares marked by the opponent in a row, comptuer blocks
 - if no immediate threat, then it will just pick a random square.
-
+- if the computer already has 2 in a row, then fill in the 3rd square
 Data:
 WINNING_LINES = [[1, 2, 3], [4, 5, 6], [7, 8, 9]] +
                 [[1, 4, 7], [2, 5, 8], [3, 6, 9]] +
                 [[1, 5, 9], [3, 5, 7]]
 
 Algorithm for Computer AI: Defense
-1. Determine if 2 of the positions in the winning lines are marked by player
-2. Determine the position to block
-3. Put marker at that position
+1. Determine if 2 of the positions in the wining lines are marked by computer
+2. Determine the position to win
+3. Else, determine if 2 of the positions in the winning lines are marked by player
+4. Determine the position to block
+5. Put marker at that position
 
 
 =end
