@@ -1,18 +1,37 @@
 =begin
-Algoritm:
-1. Display the initial empty 3x3 board.
-2. Ask the user to mark a square.
-3. Computer marks a square.
-4. Display the updated board state.
-5. If winner, display winner.
-6. If board is full, display tie.
-7. If neither winner nor board is full, go to #2
-8. Play again?
-9. If yes, go to #1
-10. Good bye!
+Computer Defense AI
+Explicit:
+- if there are to be 2 squares marked by the opponent in a row, comptuer blocks
+- if no immediate threat, then it will just pick a random square.
+- if the computer already has 2 in a row, then fill in the 3rd square
+- Create a setting at the top (i.e. a constant), so that:
+  - you could play the game with either player or computer going first
+  - if the constant is set to "choose" then your game will:
+    - prompt the user to determine who goes first? 
+    - Valid options for the constant can be "player", "computer", or "choose".
+
+Data:
+WINNING_LINES = [[1, 2, 3], [4, 5, 6], [7, 8, 9]] +
+                [[1, 4, 7], [2, 5, 8], [3, 6, 9]] +
+                [[1, 5, 9], [3, 5, 7]]
+
+Algorithm for Computer AI: Defense
+1. Determine if 2 of the positions in the wining lines are marked by computer
+2. Determine the position to win
+3. Else, determine if 2 of the positions in the winning lines are marked by player
+4. Determine position to defend
+5. Pick position 5 if open
+5. Put marker at that position
+
+Algorithm for Choose who goes first
+1. create constant for GAME_SETTING
+2. Create a case for different GAME_SETTING:
+  - when "player", player goes first
+  - when "coputer", computer goes first
+  - when "choose", prompt user on who goes first
 =end
+
 require 'pry'
-require 'byebug'
 
 WINNING_LINES = [[1, 2, 3], [4, 5, 6], [7, 8, 9]] +
                 [[1, 4, 7], [2, 5, 8], [3, 6, 9]] +
@@ -21,7 +40,9 @@ WINNING_LINES = [[1, 2, 3], [4, 5, 6], [7, 8, 9]] +
 INITIAL_MARKER = " "
 PLAYER_MARKER = 'X'
 COMPUTER_MARKER = 'O'
+GAME_SETTING = "choose" #"computer" #"player" # 
 score = {"Player" => 0, "Computer" => 0}
+first_turn = GAME_SETTING
 
 def prompt(msg)
   puts "=> #{msg}"
@@ -107,7 +128,10 @@ end
 
 def computer_places_piece!(brd)
   if computer_strategy_req?(brd) == nil
-    square = empty_square(brd).sample
+    if brd[5] == INITIAL_MARKER
+      square = 5
+    else square = empty_square(brd).sample
+    end
   else
     square = computer_strategy_req?(brd).select { |position| brd[position] == INITIAL_MARKER }.pop
   end
@@ -133,16 +157,44 @@ def detect_winner(brd)
   nil
 end
 
+if GAME_SETTING == "choose"
+  loop do 
+    prompt "Who should go first? player/computer"
+    user_choice = gets.chomp.downcase
+    if user_choice.start_with?("p")
+      first_turn = "player"
+      break
+    elsif user_choice.start_with?("c")
+      first_turn = "computer"
+      break
+    else prompt "That's not a valid player."
+    end
+  end
+end
+
 loop do
   loop do
     board = initialize_board
 
     loop do
       display_board(board, score)
-      player_places_piece!(board)
-      break if someone_won?(board) || board_full?(board)
 
-      computer_places_piece!(board)
+      case first_turn
+      when "player"
+        player_places_piece!(board)
+      when "computer"
+        prompt "Computer will go first."
+        computer_places_piece!(board)
+        display_board(board, score)
+      end
+      break if someone_won?(board) || board_full?(board)
+      
+      case first_turn
+      when "player"
+        computer_places_piece!(board)
+      when "computer"
+        player_places_piece!(board)
+      end 
       break if someone_won?(board) || board_full?(board)
     end
 
@@ -165,25 +217,3 @@ loop do
 end
 
 prompt "Thanks for playing Tic Tac Toe. Goodbye!"
-
-=begin
-Computer Defense AI
-Explicit:
-- if there are to be 2 squares marked by the opponent in a row, comptuer blocks
-- if no immediate threat, then it will just pick a random square.
-- if the computer already has 2 in a row, then fill in the 3rd square
-Data:
-WINNING_LINES = [[1, 2, 3], [4, 5, 6], [7, 8, 9]] +
-                [[1, 4, 7], [2, 5, 8], [3, 6, 9]] +
-                [[1, 5, 9], [3, 5, 7]]
-
-Algorithm for Computer AI: Defense
-1. Determine if 2 of the positions in the wining lines are marked by computer
-2. Determine the position to win
-3. Else, determine if 2 of the positions in the winning lines are marked by player
-4. Determine the position to block
-5. Put marker at that position
-
-
-=end
-
