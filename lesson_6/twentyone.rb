@@ -11,7 +11,7 @@
       - if total + 10 <= 20, add 10, else add 1
   - prompt hit or stay
     - if hit, deal 1 card
-    - display card   
+    - display card
   - repeat until bust or "stay"
 4. If player bust, dealer wins.
 5. Dealer turn: hit or stay
@@ -26,7 +26,6 @@ deck = { hearts: [(2..10), 'j', 'q', 'k', 'a'],
   spades: []
 }
 hands = [[suits, value],[suits,value]]
-
 =end
 
 require 'pry'
@@ -34,11 +33,11 @@ require 'pry-byebug'
 
 def initialize_deck
   suits = %w(h d c s)
-  values = %w(2 3 4 5 6 7 8 9 10 j q k a) 
+  values = %w(2 3 4 5 6 7 8 9 10 j q k a)
   deck = []
   suits.each do |suit|
     values.each do |value|
-      deck << [suit,value]
+      deck << [suit, value]
     end
   end
   deck
@@ -48,7 +47,7 @@ def deal(deck, count = 1)
   case count
   when 2
     hand = deck.sample(count)
-    hand.each {|card| deck.delete(card)}
+    hand.each { |card| deck.delete(card) }
   when 1
     hand = deck.sample(count).flatten
     deck.delete(hand)
@@ -60,6 +59,7 @@ def prompt(msg)
   puts ">> #{msg}"
 end
 
+# rubocop:disable Style/IdenticalConditionalBranches
 def display_cards(player_cards, dealer_cards, plays)
   if plays == ['s', 's']
     prompt("Player cards: #{player_cards}")
@@ -69,24 +69,21 @@ def display_cards(player_cards, dealer_cards, plays)
     prompt("Dealer card: #{dealer_cards[0]}")
   end
 end
-
-# this isn't working
+# rubocop:enable Style/IdenticalConditionalBranches
 
 def calculate_total(hand)
   hand_total = 0
   hand.each do |card|
     if card[1].to_i.to_s == card[1]
       hand_total += card[1].to_i
-    elsif card[1] == 'j' || 
-          card[1] == 'k' || 
-          card[1] == 'q'
+    elsif card[1].to_i == 0
       hand_total += 10
     end
   end
 
   ace_cards = hand.select { |card| card.include?('a') }
   ace_count = ace_cards.flatten.count('a')
-  ace_count.times do  
+  ace_count.times do
     if hand_total + 10 <= 20
       hand_total += 10
     else hand_total += 1
@@ -99,24 +96,22 @@ def bust?(cards)
   calculate_total(cards) > 21
 end
 
-
 def winner?(player_cards, dealer_cards)
   if bust?(player_cards)
-    return "Dealer"
+    "Dealer"
   elsif bust?(dealer_cards)
-    return "Player"
-  else 
-    if calculate_total(player_cards) > calculate_total(dealer_cards)
-      return "Player"
-    elsif calculate_total(player_cards) < calculate_total(dealer_cards)
-      return "Dealer"
-    else return "Tie"
-    end
+    "Player"
+  elsif calculate_total(player_cards) == calculate_total(dealer_cards)
+    "Tie"
+  elsif calculate_total(player_cards) < calculate_total(dealer_cards)
+    "Dealer"
+  else "Player"
   end
-end  
-loop do 
+end
+
+loop do
   system 'cls'
-  prompt ("Let's play a game of Twenty-One!")
+  prompt("Let's play a game of Twenty-One!")
   deck_of_cards = initialize_deck
   player_cards = deal(deck_of_cards, 2)
   dealer_cards = deal(deck_of_cards, 2)
@@ -133,7 +128,7 @@ loop do
       player_cards << deal(deck_of_cards)
       system 'cls'
       display_cards(player_cards, dealer_cards, [player_play, dealer_play])
-    elsif !player_play.start_with?('s')   
+    elsif !player_play.start_with?('s')
       prompt("That is an invalid play.")
     end
 
@@ -147,7 +142,7 @@ loop do
 
   # dealer's play
   hit_count = 0
-  loop do 
+  loop do
     break if calculate_total(dealer_cards) >= 17 || player_play == 'b'
     dealer_cards << deal(deck_of_cards)
     hit_count += 1
@@ -160,7 +155,7 @@ loop do
   end
 
   system 'cls'
-  display_cards(player_cards, dealer_cards, [player_play, dealer_play])
+  display_cards(player_cards, dealer_cards, ['s', 's'])
   prompt("The winner is: #{winner?(player_cards, dealer_cards)}!")
   
   prompt("Would you like to play again? y/n")
@@ -168,4 +163,4 @@ loop do
   break if play_again.start_with?("n")
 end
 
-prompt ("Thanks for playing!")
+prompt("Thanks for playing!")
