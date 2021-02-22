@@ -31,6 +31,8 @@ hands = [[suits, value],[suits,value]]
 require 'pry'
 require 'pry-byebug'
 
+GAME_TOTAL = 21
+
 def initialize_deck
   suits = %w(h d c s)
   values = %w(2 3 4 5 6 7 8 9 10 j q k a)
@@ -60,8 +62,8 @@ def prompt(msg)
 end
 
 # rubocop:disable Style/IdenticalConditionalBranches
-def display_cards(player_cards, dealer_cards, plays)
-  if plays == ['s', 's']
+def display_cards(player_cards, dealer_cards, all = 0)
+  if all == 1
     prompt("Player cards: #{player_cards}")
     prompt("Dealer cards: #{dealer_cards}")
   else
@@ -76,7 +78,9 @@ def calculate_total(hand)
   hand.each do |card|
     if card[1].to_i.to_s == card[1]
       hand_total += card[1].to_i
-    elsif card[1].to_i == 0
+    elsif card[1] == 'j' ||
+          card[1] == 'k' ||
+          card[1] == 'q'
       hand_total += 10
     end
   end
@@ -92,75 +96,77 @@ def calculate_total(hand)
   hand_total
 end
 
-def bust?(cards)
-  calculate_total(cards) > 21
+def bust?(total)
+  total > GAME_TOTAL
 end
 
-def winner?(player_cards, dealer_cards)
-  if bust?(player_cards)
+def winner?(player_total, dealer_total)
+  if bust?(player_total)
     "Dealer"
-  elsif bust?(dealer_cards)
+  elsif bust?(dealer_total)
     "Player"
-  elsif calculate_total(player_cards) == calculate_total(dealer_cards)
-    "Tie"
-  elsif calculate_total(player_cards) < calculate_total(dealer_cards)
+  elsif player_total < dealer_total
     "Dealer"
-  else "Player"
+  elsif player_total > dealer_total
+    "Player"
+  else "Tie"
   end
 end
 
-loop do
-  system 'cls'
-  prompt("Let's play a game of Twenty-One!")
-  deck_of_cards = initialize_deck
-  player_cards = deal(deck_of_cards, 2)
-  dealer_cards = deal(deck_of_cards, 2)
+loop do 
+  prompt("Let's play a game of #{GAME_TOTAL}!")
+  score = { player: 0, dealer: 0 }
 
-  player_play = ''
-  dealer_play = ''
-  display_cards(player_cards, dealer_cards, [player_play, dealer_play])
-
-  # Player's play
   loop do
-    prompt("Would you like to hit or stay? h/s")
-    player_play = gets.chomp
-    if player_play.start_with?('h')
-      player_cards << deal(deck_of_cards)
-      system 'cls'
-      display_cards(player_cards, dealer_cards, [player_play, dealer_play])
-    elsif !player_play.start_with?('s')
-      prompt("That is an invalid play.")
+    prompt("Player: #{score[:player]} | Dealer: #{score[:dealer]}")
+    deck_of_cards = initialize_deck
+    player_cards = deal(deck_of_cards, 2)
+    dealer_cards = deal(deck_of_cards, 2)
+    player_total = calculate_total(player_cards)
+    dealer_total = calculate_total(dealer_cards)
+
+    display_cards(player_cards, dealer_cards)
+    
+    # Player's play
+    loop do
+      prompt("Would you like to hit or stay? h/s")
+      player_play = gets.chomp.downcase
+      if player_play.start_with?('h')
+        player_cards << deal(deck_of_cards)
+        display_cards(player_cards, dealer_cards)
+      elsif !player_play.start_with?('s')
+        prompt("That is an invalid play.")
+      end
+      player_total = calculate_total(player_cards)
+      break if player_play.start_with?('s') || bust?(player_total)
     end
 
-    break if player_play.start_with?('s') || bust?(player_cards)
-  end
+    # dealer's play
+    hit_count = 0
+    loop do
+      break if dealer_total >= 17 || bust?(player_total)
+      dealer_cards << deal(deck_of_cards)
+      dealer_total = calculate_total(dealer_cards)
+      hit_count += 1
+    end
+    prompt("Dealer hit #{hit_count} times.")
 
-  if bust?(player_cards)
-    player_play = 'b'
-  else player_play = 's'
-  end
+    system 'cls'
+    display_cards(player_cards, dealer_cards, 1)
+    prompt("The winner is: #{winner?(player_total, dealer_total)}!")
+    
+    if winner?(player_total, dealer_total) == "Player"
+      score[:player] += 1
+    elsif winner?(player_total, dealer_total) == "Dealer"
+      score[:dealer] += 1
+    end
 
-  # dealer's play
-  hit_count = 0
-  loop do
-    break if calculate_total(dealer_cards) >= 17 || player_play == 'b'
-    dealer_cards << deal(deck_of_cards)
-    hit_count += 1
+    break if score.values.include?(5)
   end
-  prompt("Dealer hit #{hit_count} times.")
-
-  if bust?(dealer_cards)
-    dealer_play = 'b'
-  else dealer_play = 's'
-  end
-
-  system 'cls'
-  display_cards(player_cards, dealer_cards, ['s', 's'])
-  prompt("The winner is: #{winner?(player_cards, dealer_cards)}!")
-  
+  prompt("Grand winner is: #{score.key(5)}!")
   prompt("Would you like to play again? y/n")
   play_again = gets.chomp.downcase
   break if play_again.start_with?("n")
-end
 
-prompt("Thanks for playing!")
+  prompt("Thanks for playing!")
+end
