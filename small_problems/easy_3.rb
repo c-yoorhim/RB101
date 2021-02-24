@@ -174,3 +174,43 @@ Algorithm:
 
 =begin
 Problem 4: Multiplying Two Numbers
+Input: two arguments
+Output: integer
+
+Questiosn: 
+-are the arguments integers?
+-what happens if they are not?
+-can we have floats?
+-should the result be an integer
+
+Exmaple:
+multiply(5, 3) == 15
+
+=end
+
+def multiply(x,y)
+  x * y
+end
+
+=begin
+Problem 5: Squaring an Argument
+
+Using the multiply method from the "Multiplying Two Numbers" problem, 
+write a method that computes the square of its argument (the square is the result of multiplying a number by itself).
+
+=end
+
+def square(x)
+  square_total = multiply(x,x)
+   x_pos = x.abs - 2
+  until x_pos == 0 do
+    square_total *= x.abs
+    x_pos -= 1
+  end
+
+  return square_total if x > 0
+  return -1r/square_total if x < 0
+end
+
+p square(5) == 5**5
+p square(-8) == -8**-8
