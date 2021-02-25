@@ -212,5 +212,31 @@ def square(x)
   return -1r/square_total if x < 0
 end
 
-p square(5) == 5**5
-p square(-8) == -8**-8
+# p square(5) == 5**5
+# p square(-8) == -8**-8
+
+
+=begin
+Problem 6: Exclusive Or
+Input: two arguments
+Output: booleon
+Explicit:
+- write a function named xor that takes 2 arguments
+- returns true if exactly one of its arguments is truthy, false otherwise. 
+- Note that we are looking for a boolean result instead of a truthy/falsy value as returned by || and &&.
+
+Algorithm:
+1.
+2. if || returns true, but && returns false, return true
+3. else return false
+=end
+
+def xor?(x, y)
+  return true if ( (x || y) == true ) && ( (x && y) == false )
+  false
+end
+
+# p xor?(5.even?, 4.even?) == true
+# p xor?(5.odd?, 4.odd?) == true
+# p xor?(5.odd?, 4.even?) == false
+# p xor?(5.even?, 4.odd?) == false
