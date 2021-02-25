@@ -240,3 +240,84 @@ end
 # p xor?(5.odd?, 4.odd?) == true
 # p xor?(5.odd?, 4.even?) == false
 # p xor?(5.even?, 4.odd?) == false
+
+=begin
+Problem 7: Odd List 
+Input: array
+Output: array 
+Explicit:
+- return an Array that contains every other element of an Array that is passed in as an argument. 
+- The values in the returned list should be those values that are in the 1st, 3rd, 5th, and so on elements of the argument Array.
+- if empty, return empty array
+Data: array
+Algorithm:
+1. if argument is empty array, return empty array
+2. else, return only values at even index positions.
+=end
+
+def oddities(array)
+  return [] if array == []
+  array.select { |value| array.index(value).even? }
+end
+
+# p oddities([2, 3, 4, 5, 6]) == [2, 4, 6]
+# p oddities([1, 2, 3, 4, 5, 6]) == [1, 3, 5]
+# p oddities(['abc', 'def']) == ['abc']
+# p oddities([123]) == [123]
+# p oddities([]) == []
+
+=begin
+Problem 8: Palindromic Strings (Part 1)
+Input: string
+Output: boolean 
+Explicit:
+- Write a method that returns: 
+  - true if: the string passed as an argument is a palindrome
+  - else false
+  - A palindrome reads the same forward and backward. 
+  - case matters as does punctuation and spaces.
+-question: is empty string a palindrome?
+
+Algorithm:
+1. check if string is palindrome
+- if str reverse == str
+2. return boolean
+=end
+
+def palindrome?(obj)
+  obj.reverse == obj
+end
+
+# p palindrome?('madam') == true
+# p palindrome?('Madam') == false          # (case matters)
+# p palindrome?("madam i'm adam") == false # (all characters matter)
+# p palindrome?('356653') == true
+# p palindrome?([1,2,3]) == false
+# p palindrome?([1,2,1]) == true
+=begin
+Explicit: 
+- method that determines whether an array is palindromic; 
+- the element values appear in the same sequence both forwards and backwards in the array. 
+- Now write a method that determines whether an array or a string is palindromic; 
+- that is, write a method that can take either an array or a string argument, and determines whether that argument is a palindrome. 
+- You may not use an if, unless, or case statement or modifier.
+=end
+
+=begin
+Problem 9: Palindromic Strings (Part 2)
+input: str
+output: boolean
+explicit:
+- method that returns:
+  - true if the string passed as an argument is a palindrome
+  - else false
+- your method should be case-insensitive
+- ignore all non-alphanumeric characters
+- If you wish, you may simplify things by calling the palindrome? method you wrote in the previous exercise.
+
+Algorithm:
+1. delete all non alpha-numeric characters 
+- Use delete
+2. downcase argument.reverse == downcase argument
+=end
+
