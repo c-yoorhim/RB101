@@ -321,3 +321,34 @@ Algorithm:
 2. downcase argument.reverse == downcase argument
 =end
 
+def real_palindrome?(str)
+  new_str = str.downcase.delete('^a-z0-9')
+  palindrome?(new_str)
+end
+
+# p real_palindrome?('madam') == true
+# p real_palindrome?('Madam') == true           # (case does not matter)
+# p real_palindrome?("Madam, I'm Adam") == true # (only alphanumerics matter)
+# p real_palindrome?('356653') == true
+# p real_palindrome?('356a653') == true
+# p real_palindrome?('123ab321') == false
+
+=begin
+Problem 10: Palindromic Numbers
+input: integer
+output: boolean
+explicit:
+- returns true if its integer argument is palindromic, false otherwise
+- A palindromic number reads the same forwards and backwards.
+
+=end
+
+def palindromic_number?(int)
+  palindrome?(int.to_s)
+end
+
+p palindromic_number?(34543) == true
+p palindromic_number?(123210) == false
+p palindromic_number?(22) == true
+p palindromic_number?(5) == true
+
