@@ -86,7 +86,66 @@ end
 # p century(11201) == '113th'
 
 =begin
-Problem 3:
+Problem 3: Leap year (Part 1)
+Input: year > 0, int
+Output: boolean (true if leap year)
+Explicit:
+- leap years occur in every year that is:
+  - evenly divisible by 4
+  - except/unless the year is also divisible by 100
+    - then it is not a leap year, unless the year is evenly divisible by 400.
+
+- Assume this rule is good for any year greater than year 0. 
+- Write a method that takes any year greater than 0 as input
+- returns true if the year is a leap year, or false if it is not a leap year.
+
+Algorithm:
+cases year
+when year % 400 == leap
+when year % 100 == not leap
+when year % 4 == leap
+
+
+=end
+
+# def leap_year?(year)
+#   year % 400 == 0 ? true : ( 
+#     year % 100 == 0 ? false : ( 
+#       year % 4 == 0 ? true : false
+#     )
+#   )
+# end
+
+# explore further
+def leap_year?(year)
+  if year % 4 == 0
+    if year % 100 == 0
+      if year % 400 == 0
+        true
+      else false
+      end
+    else true
+    end 
+  else false
+  end 
+end
+
+# p leap_year?(2016) == true
+# p leap_year?(2015) == false
+# p leap_year?(2100) == false
+# p leap_year?(2400) == true
+# p leap_year?(240000) == true
+# p leap_year?(240001) == false
+# p leap_year?(2000) == true
+# p leap_year?(1900) == false
+# p leap_year?(1752) == true
+# p leap_year?(1700) == false
+# p leap_year?(1) == false
+# p leap_year?(100) == false
+# p leap_year?(400) == true
+
+=begin
+Problem 4: 
 Input:
 Output:
 Explicit:
