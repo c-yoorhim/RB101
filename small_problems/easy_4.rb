@@ -264,5 +264,89 @@ def string_to_integer(str_int)
   int_array.inject(:+)
 end
 
-p string_to_integer('4321') == 4321
-p string_to_integer('570') == 570
+# p string_to_integer('4321') == 4321
+# p string_to_integer('570') == 570
+
+=begin
+Problem 8: Convert a String to a Signed Number!
+Input:  
+Output: 
+Explicit:
+- In the previous exercise, you developed a method that converts simple numeric strings to Integers. 
+- In this exercise, you're going to extend that method to work with signed numbers.
+- Write a method that takes a String of digits, and returns the appropriate number as an integer. 
+- The String may have a leading + or - sign; 
+  - if the first character is a +, your method should return a positive number; 
+  - if it is a -, your method should return a negative number. 
+  - If no sign is given, you should return a positive number.
+- You may assume the string will always contain a valid number.
+- You may not use any of the standard conversion methods available in Ruby, such as String#to_i, Integer(), etc. You may, however, use the string_to_integer method from the previous lesson.
+
+Algorithm:
+1. check if first character has -, if it does, add - to value
+=end
+
+def string_to_signed_integer(str_int)
+  # str_array = str_int.chars
+  # if str_array.first == "-"
+  #   str_array.shift
+  #   string_to_integer(str_array.join) * -1
+  # elsif str_array.first == "+"
+  #   str_array.shift
+  #   string_to_integer(str_array.join)
+  # else string_to_integer(str_int)
+  # end
+  if str_int[0].key?(NUMBER)
+    string_to_integer(str_int)
+  else string_to_integer(str_int[1..-1])
+  end
+end
+
+# p string_to_signed_integer('4321') == 4321
+# p string_to_signed_integer('-570') == -570
+# p string_to_signed_integer('+100') == 100
+
+=begin
+Problem 9: Convert a Number to a String!
+Input:  
+Output: 
+Explicit:
+- Write a method that takes a positive integer or zero, and converts it to a string representation.
+- You may not use any of the standard conversion methods available in Ruby, such as Integer#to_s, String(), Kernel#format, etc. Your method should do this the old-fashioned way and construct the string by analyzing and manipulating the number.
+Data:
+str.unshift(NUMBER.key(4321 % 10 == 1))
+value = 4321/10
+=end
+
+def integer_to_string(int)
+  str = ''
+  return '0' if int == 0
+  loop do
+    break if int == 0
+    str.prepend(NUMBERS.key(int % 10))
+    int /= 10
+  end
+  str
+end
+
+# p integer_to_string(4321) == '4321'
+# p integer_to_string(0) == '0'
+# p integer_to_string(5000) == '5000'
+
+=begin
+Problem 10: Convert a Signed Number to a String!
+Input:  int
+Output: str
+Explicit:
+- Write a method that takes an integer, and converts it to a string representation.
+=end
+
+def signed_integer_to_string(int)
+  return '0' if int == 0
+  return ('+' + integer_to_string(int)) if int > 0
+  return ('-' + integer_to_string(int*-1))
+end
+
+p signed_integer_to_string(4321) == '+4321'
+p signed_integer_to_string(-123) == '-123'
+p signed_integer_to_string(0) == '0'
