@@ -67,23 +67,107 @@ def time_of_day(int)
   else 
     hour, minute = int.divmod(60)
     if (hour < -24) || ( (hour > 0) && (hour < 24))
-      _, hour = hour.divmod(24)-
+      _, hour = hour.divmod(24)
     else hour += 24
     end
   end 
   prompt(hour, minute)
 end
 
-p time_of_day(0) == "00:00"
-p time_of_day(-3) == "23:57"
-p time_of_day(35) == "00:35"
-p time_of_day(-1437) == "00:03"
-p time_of_day(3000) == "02:00"
-p time_of_day(800) == "13:20"
-p time_of_day(-4231) == "01:29"
+# p time_of_day(0) == "00:00"
+# p time_of_day(-3) == "23:57"
+# p time_of_day(35) == "00:35"
+# p time_of_day(-1437) == "00:03"
+# p time_of_day(3000) == "02:00"
+# p time_of_day(800) == "13:20"
+# p time_of_day(-4231) == "01:29"
 
 =begin
-Problem 3:
+Problem 4: After Midnight (Part 2)
+Input:
+Output:
+Explicit:
+- Write two methods that each take a time of day in 24 hour format, and return the number of minutes before and after midnight, respectively. 
+- Both methods should return a value in the range 0..1439.
+Algorithm: after midnight
+1. seprate hours and minutes from str
+2. take hours, % 24
+3. convert hours to minutes
+4. add hours in minutes to minutes
+
+Algorithm: before midnight
+1. seprate hours and minutes from str
+2. take hours, % 24
+3. convert hours to minutes
+4. add hours in minutes to minutes
+5. sub total minutes from total min in day
+=end
+
+HOURS_IN_DAY =  24
+MINUTES_IN_HOUR = 60
+TOTAL_MINUTES_IN_DAY = HOURS_IN_DAY * MINUTES_IN_HOUR
+
+def after_midnight(str)
+  hour = str[0..1].to_i
+  minutes = str[-2..-1].to_i
+  hour %= 24
+  minutes += (hour * MINUTES_IN_HOUR)
+  minutes
+end
+
+def before_midnight(str)
+  minutes = after_midnight(str)
+  return 0 if minutes == 0
+  minutes = TOTAL_MINUTES_IN_DAY - minutes 
+end
+
+# p after_midnight('00:00') == 0
+# p after_midnight('12:34') == 754
+# p after_midnight('24:00') == 0
+
+# p before_midnight('00:00') == 0
+# p before_midnight('12:34') == 686
+# p before_midnight('24:00') == 0
+
+=begin
+Problem 5: Letter Swap
+Input: str of words
+Output: str
+Explicit:
+- Given a string of words separated by spaces
+- returns a string in which the first and last letters of every word are swapped.
+- You may assume: 
+  - that every word contains at least one letter
+  - the string will always contain at least one word 
+  - You may also assume that each string contains nothing but words and spaces
+-case sensitive
+
+Algorithm:
+1. split the words by spaces
+2. for each word make the last letter the first letter
+3. join by spaces
+=end
+
+def swap(str) # I can use multi-assignment syntax to refactor
+  swapped_array = str.split(' ').map do |word|
+                    if word.size > 1
+                      first_letter = word[0]
+                      last_letter = word[-1]
+                      word.chop!
+                      word[0] = last_letter
+                      word << first_letter
+                    end
+                    word
+                  end
+  swapped_array.join(' ')
+end
+
+p swap('Oh what a wonderful day it is') == 'hO thaw a londerfuw yad ti si'
+p swap('Abcde') == 'ebcdA'
+p swap('a') == 'a'
+
+=begin
+Problem 6: 
 Input:
 Output:
 Explicit:
