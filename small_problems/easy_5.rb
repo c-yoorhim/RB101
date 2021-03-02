@@ -1,3 +1,4 @@
+require "pry"
 =begin
 Problem 1: ASCII String Value
 Input: str 
@@ -43,6 +44,21 @@ Data:
 + int == minutes AFTER midnight
   minutes divmod 60 == hour, minutes
 =end
+def prompt(hour, minute)
+  case hour <=> 9
+  when 1 
+    str_hour = hour.to_s
+  else str_hour = "0#{hour}"
+  end
+
+  case minute <=> 9
+  when 1 
+    str_min = minute.to_s
+  else str_min = "0#{minute}"
+  end
+
+  "#{str_hour}:#{str_min}"
+end
 
 def time_of_day(int)
   if int >= 0
@@ -50,20 +66,21 @@ def time_of_day(int)
     hour /= 24 if hour > 24
   else 
     hour, minute = int.divmod(60)
-    hour /= 24 if hour < 24
-    hour += 24 
+    if (hour < -24) || ( (hour > 0) && (hour < 24))
+      _, hour = hour.divmod(24)-
+    else hour += 24
+    end
   end 
-#need to add 0 to fill in when single digit
-  "#{hour}:#{minute}"
+  prompt(hour, minute)
 end
 
-p time_of_day(0)# == "00:00"
-# p time_of_day(-3) == "23:57"
-# p time_of_day(35) == "00:35"
-# p time_of_day(-1437) == "00:03"
-# p time_of_day(3000) == "02:00"
-# p time_of_day(800) == "13:20"
-# p time_of_day(-4231) == "01:29"
+p time_of_day(0) == "00:00"
+p time_of_day(-3) == "23:57"
+p time_of_day(35) == "00:35"
+p time_of_day(-1437) == "00:03"
+p time_of_day(3000) == "02:00"
+p time_of_day(800) == "13:20"
+p time_of_day(-4231) == "01:29"
 
 =begin
 Problem 3:
