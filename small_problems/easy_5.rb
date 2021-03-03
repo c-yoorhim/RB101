@@ -162,12 +162,99 @@ def swap(str) # I can use multi-assignment syntax to refactor
   swapped_array.join(' ')
 end
 
-p swap('Oh what a wonderful day it is') == 'hO thaw a londerfuw yad ti si'
-p swap('Abcde') == 'ebcdA'
-p swap('a') == 'a'
+# p swap('Oh what a wonderful day it is') == 'hO thaw a londerfuw yad ti si'
+# p swap('Abcde') == 'ebcdA'
+# p swap('a') == 'a'
 
 =begin
-Problem 6: 
+Problem 6: Clean up the words
+Input: string that consists of some words (all lowercased) and an assortment of non-alphabetic characters
+Output: string
+Explicit:
+- return string with all of the non-alphabetic characters replaced by spaces. 
+- If one or more non-alphabetic characters occur in a row, you should only have one space in the result
+- the result should never have consecutive spaces
+Question:
+- mutate in place?
+- retrun new string?
+
+Algorithm:
+1. iterate through the characters in the string
+2. if the character is included in (a..z); leave as is
+3. if it's not, replace with ' '
+4. if character before is also not (a..z), don't add the extra ' '
+=end
+
+# ALPHABET = ('a'..'z').to_a
+
+# def cleanup(str)
+#   new_str = ''
+#   str.chars.each_with_object(new_str) do |char, new_str|
+#     if !(ALPHABET.include?(char))
+#       next if new_str[-1] == ' ' 
+#       new_str << ' ' 
+#     else new_str << char
+#     end 
+#   end
+# end
+
+def cleanup(str)
+  str.gsub(/[^a-z]/i,' ').squeeze(' ')
+end
+
+# p cleanup("---what's my +*& line?")# == ' what s my line '
+
+=begin
+Problem 7: Letter Counter (Part 1)
+Input: string with one or more space separated words
+Output: hash
+Explicit:
+- returns a hash that shows the number of words of different sizes.
+- Words consist of any string of characters that do not include a space.
+- empty return empty hash
+Data:
+Four = 4
+score = 5
+and = 3
+seven. = 6
+== { 3 => 1, 4 => 1, 5 => 1, 6 => 1 }
+
+Algorithm:
+0. create a new hash
+1. iterate through each "word" separated by spaces
+1.5. If "word" ==  nil, return {}
+2. For each word, count the characters
+3. Check if the count number is a key in the hash
+4. if it is, increase the key value by 1
+5. if it is not, create a new key with the count value, and make the hash value for that key == 1 
+=end
+
+def word_sizes(str)
+  word_count_hash = Hash.new(0) # this forces any non-existing keys in the hash to return 0 value
+  str.squeeze(' ').split.each_with_object(word_count_hash) do |word|
+    # return if word == nil
+    # if word_count_hash.key?(word.length)
+    #   word_count_hash[word.length] += 1
+    #else 
+    word_count_hash[word.length] += 1
+    #end
+  end
+end
+
+p word_sizes('Four score and seven.') == { 3 => 1, 4 => 1, 5 => 1, 6 => 1 }
+p word_sizes('Hey diddle diddle, the cat and the fiddle!') == { 3 => 5, 6 => 1, 7 => 2 }
+p word_sizes("What's up doc?") == { 6 => 1, 2 => 1, 4 => 1 }
+p word_sizes('') == {}
+
+=begin
+Problem 8:
+Input:
+Output:
+Explicit:
+=end
+
+=begin
+Problem 9:
 Input:
 Output:
 Explicit:
