@@ -83,7 +83,7 @@ end
 # p time_of_day(-4231) == "01:29"
 
 =begin
-Problem 4: After Midnight (Part 2)
+Problem 3: After Midnight (Part 2)
 Input:
 Output:
 Explicit:
@@ -130,7 +130,7 @@ end
 # p before_midnight('24:00') == 0
 
 =begin
-Problem 5: Letter Swap
+Problem 4: Letter Swap
 Input: str of words
 Output: str
 Explicit:
@@ -167,7 +167,7 @@ end
 # p swap('a') == 'a'
 
 =begin
-Problem 6: Clean up the words
+Problem 5: Clean up the words
 Input: string that consists of some words (all lowercased) and an assortment of non-alphabetic characters
 Output: string
 Explicit:
@@ -205,7 +205,7 @@ end
 # p cleanup("---what's my +*& line?")# == ' what s my line '
 
 =begin
-Problem 7: Letter Counter (Part 1)
+Problem 6: Letter Counter (Part 1)
 Input: string with one or more space separated words
 Output: hash
 Explicit:
@@ -229,33 +229,140 @@ Algorithm:
 5. if it is not, create a new key with the count value, and make the hash value for that key == 1 
 =end
 
+# def word_sizes(str)
+#   word_count_hash = Hash.new(0) # this forces any non-existing keys in the hash to return 0 value
+#   str.squeeze(' ').split.each_with_object(word_count_hash) do |word|
+#     # return if word == nil
+#     # if word_count_hash.key?(word.length)
+#     #   word_count_hash[word.length] += 1
+#     #else 
+#     word_count_hash[word.length] += 1
+#     #end
+#   end
+# end
+
+# p word_sizes('Four score and seven.') == { 3 => 1, 4 => 1, 5 => 1, 6 => 1 }
+# p word_sizes('Hey diddle diddle, the cat and the fiddle!') == { 3 => 5, 6 => 1, 7 => 2 }
+# p word_sizes("What's up doc?") == { 6 => 1, 2 => 1, 4 => 1 }
+# p word_sizes('') == {}
+
+=begin
+Problem 7: Letter Counter (Part 2)
+Input: 
+Output:
+Explicit:
+- Modify the word_sizes method from the previous exercise to exclude:
+  - non-letters when determining word size. 
+  - For instance, the length of "it's" is 3, not 4.
+=end
 def word_sizes(str)
-  word_count_hash = Hash.new(0) # this forces any non-existing keys in the hash to return 0 value
-  str.squeeze(' ').split.each_with_object(word_count_hash) do |word|
-    # return if word == nil
-    # if word_count_hash.key?(word.length)
-    #   word_count_hash[word.length] += 1
-    #else 
-    word_count_hash[word.length] += 1
-    #end
+  word_count_hash = Hash.new(0)
+  str.squeeze(' ').split.each_with_object(word_count_hash) do |word| 
+    #word_count_hash[word.gsub(/[^a-z]/i,'').length] += 1
+    word_count_hash[word.delete('^a-zA-Z').length] += 1
   end
 end
 
-p word_sizes('Four score and seven.') == { 3 => 1, 4 => 1, 5 => 1, 6 => 1 }
-p word_sizes('Hey diddle diddle, the cat and the fiddle!') == { 3 => 5, 6 => 1, 7 => 2 }
-p word_sizes("What's up doc?") == { 6 => 1, 2 => 1, 4 => 1 }
-p word_sizes('') == {}
+# p word_sizes('Four score and seven.') == { 3 => 1, 4 => 1, 5 => 2 }
+# p word_sizes('Hey diddle diddle, the cat and the fiddle!') == { 3 => 5, 6 => 3 }
+# p word_sizes("What's up doc?") == { 5 => 1, 2 => 1, 3 => 1 }
+# p word_sizes('') == {}
 
 =begin
-Problem 8:
-Input:
-Output:
+Problem 8: Alphabetical Numbers
+Input: array of integers between 0 - 19
+Output: sorted array
 Explicit:
+- Write a method that takes an Array of Integers between 0 and 19
+- returns an Array of those Integers sorted based on the English words for each number:
+zero, one, two, three, four, five, six, seven, eight, nine, ten, eleven, twelve, thirteen, fourteen, fifteen, sixteen, seventeen, eighteen, nineteen
+
+Algorithm:
+1. create an array of integer words
+3. for each element, look up the english word using the integer as index of the english word array
+4. sort the element by the alphabetical order of the english word
+  - create a hash using the word array
+  - sort by value in a hash, which will return nested array
+  - iterate through the nested array, put the first element in a new array
+  - return the new array
 =end
 
+
+INTEGER_ENGLISH_WORD = %w[zero one two three four five six seven eight nine ten eleven twelve thirteen fourteen fifteen sixteen seventeen eighteen nineteen]
+
+def alphabetic_number_sort(array)
+  # int_hash = {}
+  # array.each_with_object(int_hash) do |int|
+  #   int_hash[int] = INTEGER_ENGLISH_WORD[int]
+  # end
+  # int_hash.sort_by {|int, word| word}.map do |int_word_pair|
+  #   int_word_pair[0]
+  # end
+  array.sort_by { |int| INTEGER_ENGLISH_WORD[int] }
+end
+
+# p alphabetic_number_sort((0..19).to_a) == [
+#   8, 18, 11, 15, 5, 4, 14, 9, 19, 1, 7, 17,
+#   6, 16, 10, 13, 3, 12, 2, 0
+# ]
+
 =begin
-Problem 9:
-Input:
-Output:
+Problem 9: ddaaiillyy ddoouubbllee
+Input: string
+Output: new string
 Explicit:
+- Write a method that takes a string argument
+- returns a new string that contains the value of the original string with all consecutive duplicate characters collapsed into a single character.
+- You may not use String#squeeze or String#squeeze!.
+
+Algorithm:
+1. iterate through string letters
+2. send each char into a new string
+3. if last char of the string == the current char in iteration, don't send to string
+4. return new string
 =end
+
+def crunch(str)
+  new_str = ''
+  str.chars.each_with_object(new_str) do |char|
+    new_str << char if !(new_str[-1] == char)
+  end
+end
+
+# p crunch('ddaaiillyy ddoouubbllee') == 'daily double'
+# p crunch('4444abcabccba') == '4abcabcba'
+# p crunch('ggggggggggggggg') == 'g'
+# p crunch('a') == 'a'
+# p crunch('') == ''
+
+=begin
+Problem 10: Bannerizer
+Input: str
+Output: str
+Explicit:
+- Write a method that will take a short line of text, and print it within a box.
+Algorithm:
+- if blank:
++--#{dash}+
+|  |
+| #{str} |
+|  |
++--#{dash}+
+=end
+
+def add_char(str_size, char)
+  str = ''
+  (1..str_size).each_with_object(str) { |int| str << char }
+end
+
+def print_in_box(str)
+  puts "+--#{add_char(str.size, '-')}+"
+  puts "|  #{add_char(str.size, ' ')}|"
+  puts "| #{str} |"
+  puts "|  #{add_char(str.size, ' ')}|"
+  puts "+--#{add_char(str.size, '-')}+"
+end
+
+print_in_box('To boldly go where no one has gone before.')
+print_in_box('')
+print_in_box('One more Easy 5 problem to go!')
