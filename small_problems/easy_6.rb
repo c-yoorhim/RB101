@@ -176,19 +176,165 @@ def reverse(array)
   end
 end
 
-reverse([1,2,3,4]) == [4,3,2,1]          # => true
-p reverse(%w(a b e d c)) == %w(c d e b a)  # => true
-p reverse(['abc']) == ['abc']              # => true
-p reverse([]) == []                        # => true
+# reverse([1,2,3,4]) == [4,3,2,1]          # => true
+# p reverse(%w(a b e d c)) == %w(c d e b a)  # => true
+# p reverse(['abc']) == ['abc']              # => true
+# p reverse([]) == []                        # => true
 
-list = [1, 3, 2]                      # => [1, 3, 2]
-p new_list = reverse(list)              # => [2, 3, 1]
-p list.object_id != new_list.object_id  # => true
-p list == [1, 3, 2]                     # => true
-p new_list == [2, 3, 1]                 # => true
+# list = [1, 3, 2]                      # => [1, 3, 2]
+# p new_list = reverse(list)              # => [2, 3, 1]
+# p list.object_id != new_list.object_id  # => true
+# p list == [1, 3, 2]                     # => true
+# p new_list == [2, 3, 1]                 # => true
 
 =begin
-Problem 6: 
-Input:
-Output:
+Problem 6: Combining Arrays
+Input: 2 arrays
+Output: array
+Explicit:
+- Write a method that takes two Arrays as arguments
+- return an Array that contains all of the values from the argument Arrays
+- There should be no duplication of values in the returned Array, even if there are duplicates in the original Arrays.
+Algorithm:
+1. add arrays together
+2. get only unique values in the array
 =end
+def merge(array1,array2)
+  (array1 + array2).uniq
+end
+
+# p merge([1, 3, 5], [3, 6, 9]) == [1, 3, 5, 6, 9]
+
+=begin
+Problem 7: Halvsies
+Input: array
+Output: pair nested arrays 
+Explicit:
+- Write a method that takes an Array as an argument
+- returns two Arrays (as a pair of nested Arrays) that contain the first half and second half of the original Array, respectively. 
+- If the original array contains an odd number of elements, the middle element should be placed in the first half Array.
+Algorithm:
+2. partition the array into 2: using index?
+3. return nested array
+=end
+require 'pry'
+
+def halvsies(array)
+  a, b = array.partition { |num| array.index(num) <= ( (array.size.to_f/2).ceil - 1) }
+  [a, b]
+end
+
+# p halvsies([1, 2, 3, 4])# == [[1, 2], [3, 4]]
+# p halvsies([1, 5, 2, 4, 3])# == [[1, 5, 2], [4, 3]]
+# p halvsies([5]) #== [[5], []]
+# p halvsies([])# == [[], []]
+
+=begin
+Problem 8: Find the Duplicate
+Input: array 
+Output: int?
+Explicit:
+- Given an unordered array and the information that exactly one value in the array occurs twice (every other value occurs exactly once)
+- how would you determine which value occurs twice?
+- Write a method that will find and return the duplicate value that is known to be in the array.
+Data:
+array
+count?
+int
+
+Algorithm:
+1. loop through, count value passed as argument
+2. if count > 1, stop and return value.
+=end
+
+def find_dup(array)
+index = 0
+  loop do 
+    num = array[index]
+    return num if array.count(num) > 1
+    index += 1
+  end
+end
+
+# p find_dup([1, 5, 3, 1]) == 1
+# p find_dup([18,  9, 36, 96, 31, 19, 54, 75, 42, 15,
+#           38, 25, 97, 92, 46, 69, 91, 59, 53, 27,
+#           14, 61, 90, 81,  8, 63, 95, 99, 30, 65,
+#           78, 76, 48, 16, 93, 77, 52, 49, 37, 29,
+#           89, 10, 84,  1, 47, 68, 12, 33, 86, 60,
+#           41, 44, 83, 35, 94, 73, 98,  3, 64, 82,
+#           55, 79, 80, 21, 39, 72, 13, 50,  6, 70,
+#           85, 87, 51, 17, 66, 20, 28, 26,  2, 22,
+#           40, 23, 71, 62, 73, 32, 43, 24,  4, 56,
+#           7,  34, 57, 74, 45, 11, 88, 67,  5, 58]) == 73
+
+=begin
+Problem 9: Does My List Include This?
+Input: array, some search value (int? str?)
+Output: boolean
+Explicit:
+- Write a method named include? that takes an Array and a search value as arguments.
+- This method should return true if the search value is in the array, false if it is not.
+- You may not use the Array#include? method in your solution.
+Data:
+array
+search value: int or nil
+
+Algorithm:
+- iterate through the array values
+- use bsearch
+- account for when search value is nil
+
+=end
+
+def include?(array, value)
+  !!(array.index(value))
+end
+
+# p include?([1,2,3,4,5], 3) == true
+# p include?([1,2,3,4,5], 6) == false
+# p include?([], 3) == false
+# p include?([nil], nil) == true
+# p include?([], nil) == false
+
+=begin
+Problem 10: Right Triangles
+Input: pos int
+Output:
+Explicit:
+- Write a method that takes a positive integer, n, as an argument
+- displays a right triangle whose sides each have n stars.
+- The hypotenuse of the triangle (the diagonal side in the images below) should have:
+  - one end at the lower-left of the triangle
+  - the other end at the upper-right.
+Algorithm:
+- loop through and puts
+
+=end
+
+def triangle(int)
+  int.times do |x| 
+    print " " * (int - x - 1)
+    puts "*" * (x + 1)
+  end
+end
+
+triangle(5)
+
+#     *
+#    **
+#   ***
+#  ****
+# *****
+
+triangle(9)
+
+#         *
+#        **
+#       ***
+#      ****
+#     *****
+#    ******
+#   *******
+#  ********
+# *********
