@@ -38,4 +38,43 @@ def interleave(arr1, arr2)
   arr1.zip(arr2).flatten
 end
 
-p interleave([1, 2, 3], ['a', 'b', 'c']) == [1, 'a', 2, 'b', 3, 'c']
+# p interleave([1, 2, 3], ['a', 'b', 'c']) == [1, 'a', 2, 'b', 3, 'c']
+
+=begin
+Problem 2: Lettercase Counter
+Input: string
+Output: hash 
+Explicit:
+- Write a method that takes a string
+- returns a hash that contains 3 entries: 
+  - one represents the number of characters in the string that are lowercase letters, 
+  - one the number of characters that are uppercase letters, 
+  - and one the number of characters that are neither.
+
+Algorithm:
+- count lowercase, uppercse and neither characters in each string
+  - iterate through the string character
+  - identify whether the character is lower, upper or neither
+- create a hash with key for each category and value for each count
+=end
+
+LOWERCASE = ('a'..'z').to_a
+UPPERCASE = ('A'..'Z').to_a
+
+def letter_case_count(str)
+  count_hash = { lowercase: 0, uppercase: 0, neither: 0 }
+  str.chars.each do |char|
+    if LOWERCASE.include?(char)
+      count_hash[:lowercase] += 1
+    elsif UPPERCASE.include?(char)
+      count_hash[:uppercase] += 1
+    else count_hash[:neither] += 1
+    end
+  end
+  count_hash
+end
+
+p letter_case_count('abCdef 123') == { lowercase: 5, uppercase: 1, neither: 4 }
+p letter_case_count('AbCd +Ef') == { lowercase: 3, uppercase: 3, neither: 2 }
+p letter_case_count('123') == { lowercase: 0, uppercase: 0, neither: 3 }
+p letter_case_count('') == { lowercase: 0, uppercase: 0, neither: 0 }
