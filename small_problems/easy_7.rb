@@ -58,8 +58,8 @@ Algorithm:
 - create a hash with key for each category and value for each count
 =end
 
-LOWERCASE = ('a'..'z').to_a
-UPPERCASE = ('A'..'Z').to_a
+# LOWERCASE = ('a'..'z').to_a
+# UPPERCASE = ('A'..'Z').to_a
 
 def letter_case_count(str)
   count_hash = { lowercase: 0, uppercase: 0, neither: 0 }
@@ -107,6 +107,51 @@ def word_cap(str)
   str.split.map(&:capitalize).join(" ")
 end
 
-p word_cap('four score and seven') == 'Four Score And Seven'
-p word_cap('the javaScript language') == 'The Javascript Language'
-p word_cap('this is a "quoted" word') == 'This Is A "quoted" Word'
+# p word_cap('four score and seven') == 'Four Score And Seven'
+# p word_cap('the javaScript language') == 'The Javascript Language'
+# p word_cap('this is a "quoted" word') == 'This Is A "quoted" Word'
+
+=begin
+Problem 4: Swap Case
+Input: str
+Output: new str 
+Explicit:
+- Write a method that takes a string as an argument
+- returns a new string in which:
+  - every uppercase letter is replaced by its lowercase version, 
+  - and every lowercase letter by its uppercase version. 
+  - All other characters should be unchanged.
+- You may not use String#swapcase; write your own version of this method.
+
+Algorithm:
+- Identify if character is lowercase vs. uppercase
+  - create CONSTANTS for each lowercase and uppercase
+  - iterate through the string by each char
+- Find the "opposite" case
+  - the "opposite" case will have te same index position
+  - so call the index of the "opposite" case
+- Swap
+  - create a new string
+  - add the swapped letter to the new str
+- if not letter, leave it as is
+
+=end
+
+LOWERCASE = ('a'..'z').to_a
+UPPERCASE = ('A'..'Z').to_a
+
+def swapcase(str)
+  str.chars.each_with_object('') do |char, new_str|
+    if LOWERCASE.include?(char)
+      new_str << UPPERCASE[LOWERCASE.index(char)]
+    elsif UPPERCASE.include?(char)
+      new_str << LOWERCASE[UPPERCASE.index(char)]
+    else new_str << char
+    end
+  end
+end
+
+p swapcase('CamelCase') == 'cAMELcASE'
+p swapcase('Tonight on XYZ-TV') == 'tONIGHT ON xyz-tv'
+
+#learn regex!
