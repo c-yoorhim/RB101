@@ -151,7 +151,199 @@ def swapcase(str)
   end
 end
 
-p swapcase('CamelCase') == 'cAMELcASE'
-p swapcase('Tonight on XYZ-TV') == 'tONIGHT ON xyz-tv'
+# p swapcase('CamelCase') == 'cAMELcASE'
+# p swapcase('Tonight on XYZ-TV') == 'tONIGHT ON xyz-tv'
 
 #learn regex!
+
+=begin
+Problem 5: Staggered Caps (Part 1)
+Input: string
+Output:  new string
+Explicit:
+- Write a method that takes a String as an argument
+- returns a new String that contains the original value using a staggered capitalization scheme:
+  - in which every other character is capitalized
+  - and the remaining characters are lowercase. 
+- Characters that are not letters should not be changed, but count as characters when switching between upper and lowercase.
+
+Algorithm:
+- Iterate through the string characters
+- Determine if the char should be lowercase or uppercase
+    -first letter is always capitalized, even index
+- Determine if char is lowercase or uppercase
+- Put the right letter in the new string
+
+=end
+
+def staggered_case(str)
+  new_str = ''
+  str.chars.each_with_index do |char, index|
+    new_str << char.upcase if index.even?
+    new_str << char.downcase if index.odd?
+  end
+  new_str
+end
+
+# p staggered_case('I Love Launch School!')== 'I LoVe lAuNcH ScHoOl!'
+# p staggered_case('ALL_CAPS') == 'AlL_CaPs'
+# p staggered_case('ignore 77 the 444 numbers') == 'IgNoRe 77 ThE 444 NuMbErS'
+
+=begin
+Problem 6: Staggered Caps (Part 2)
+Input: string
+Output:  new string
+Explicit:
+- Modify the method from the previous exercise so it ignores non-alphabetic characters when determining whether it should uppercase or lowercase each letter.
+- The non-alphabetic characters should still be included in the return value; they just don't count when toggling the desired case.
+
+Algorithm:
+- iterate through the str characters
+- Start with uppercase
+- If next character is alphabetic, change to lowercase
+- If char is non-alphabetic, do nothing
+- send char to new string
+=end
+
+def staggered_case(str)
+  uppercase = true
+  str.chars.each_with_object('') do |char, new_str|
+    if (char =~ /['a-zA-Z']/i) 
+      if uppercase
+        new_str << char.upcase
+      else 
+        new_str << char.downcase
+      end
+      uppercase = !uppercase
+    else new_str << char
+    end
+  end
+end
+
+# p staggered_case('I Love Launch School!') == 'I lOvE lAuNcH sChOoL!'
+# p staggered_case('ALL CAPS') == 'AlL cApS'
+# p staggered_case('ignore 77 the 444 numbers') == 'IgNoRe 77 ThE 444 nUmBeRs'
+
+=begin
+Problem 7: Multiplicative Average
+Input: array of int
+Output: float
+
+Explicit:
+- Write a method that takes an Array of integers as input
+- Result:
+  - multiplies all the numbers together, 
+  - divides the result by the number of entries in the Array,
+  - and then prints the result rounded to 3 decimal places.
+- Assume the array is non-empty.
+
+Data:
+- array
+- array.size
+- float (3 decimal places)
+
+[3,5]
+3 * 5 == 15
+15 / 2 = 7.500
+
+Algorithm:
+- Multiply all the numbers in the array: inject(:*)
+- divide by the size
+- use int format add additional 0?
+=end
+
+def show_multiplicative_average(array)
+  result = (array.inject(:*).to_f / array.size)
+  "The result is #{format('%.3f',result)}"
+end
+
+# p show_multiplicative_average([3, 5])                # => The result is 7.500
+# p show_multiplicative_average([6])                   # => The result is 6.000
+# p show_multiplicative_average([2, 5, 7, 11, 13, 17]) # => The result is 28361.667
+
+=begin
+Problem 8: Multiply Lists
+Input: 2 arrays 
+Output: new array
+Explicit:
+- Write a method that takes two Array arguments
+  - in which each Array contains a list of numbers
+- returns a new Array that:
+  - contains the product of each pair of numbers from the arguments that have the same index.
+- You may assume that the arguments contain the same number of elements.
+
+Data
+  [3, 5, 7]
+x [9, 10, 11]
+
+0 : 3 * 9 = 27
+1 : 5 * 10 = 50
+2 : 7 * 11 = 77
+
+Algorithm:
+- loop through using a counter
+=end
+
+# def multiply_list(array1, array2)
+#   index = 0
+#   new_array = []
+#   loop do 
+#     break if index == array1.size
+#     new_array[index] = array1[index] * array2[index] 
+#     index += 1
+#   end
+#   new_array
+# end
+
+def multiply_list(array1, array2)
+  array1.zip(array2).map{ |array| array.inject(:*) }
+end
+
+# p multiply_list([3, 5, 7], [9, 10, 11]) == [27, 50, 77]
+
+=begin
+Problem 9: Multiply All Pairs
+Input: 2 arrays 
+Output: new array
+Explicit:
+
+- Write a method that takes two Array arguments in which each Array contains a list of numbers
+- and returns a new Array that contains the product of every pair of numbers that can be formed between the elements of the two Arrays.
+- The results should be sorted by increasing value.
+- You may assume that neither argument is an empty Array.
+
+Data:
+[2, 4], [4, 3, 1, 2]
+
+2*4 8
+2*3 6
+2*1 2
+2*2 4
+
+4*4 16
+4*3 12
+4*1 4
+4*2 8
+
+Algorithm:
+- Get all combinations between the two arrays
+- multiply all pairs
+- sort the results from smallest to largest
+- return the result in an array
+=end
+
+# def multiply_all_pairs(array1, array2)
+#   new_array = []
+#   array1.each do |int|
+#     array2.each do |int2|
+#       new_array << int * int2
+#     end
+#   end
+#   new_array.sort
+# end
+
+def multiply_all_pairs(array1, array2)
+  array1.product(array2).map { |a| a.inject(:*) }.sort
+end
+
+p multiply_all_pairs([2, 4], [4, 3, 1, 2]) == [2, 4, 4, 6, 8, 8, 12, 16]
