@@ -346,4 +346,26 @@ def multiply_all_pairs(array1, array2)
   array1.product(array2).map { |a| a.inject(:*) }.sort
 end
 
-p multiply_all_pairs([2, 4], [4, 3, 1, 2]) == [2, 4, 4, 6, 8, 8, 12, 16]
+# p multiply_all_pairs([2, 4], [4, 3, 1, 2]) == [2, 4, 4, 6, 8, 8, 12, 16]
+
+=begin
+Problem 10: The End Is Near But Not Here
+Input: str
+Output: 
+Explicit:
+- Write a method that returns the next to last word in the String passed to it as an argument.
+- Words are any sequence of non-blank characters.
+- You may assume that the input String will always contain at least two words.
+
+Algorithm:
+- Isolate words
+- return second to last word  
+=end
+
+def penultimate(str)
+  str.split[-2]
+end
+
+p penultimate('last word') == 'last'
+p penultimate('Launch School is great!') == 'is'
+p penultimate('last _  ') == 'last'
