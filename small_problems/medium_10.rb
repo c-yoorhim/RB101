@@ -65,16 +65,31 @@ Write a method that takes an integer as argument, and returns the maximum rotati
 You can (and probably should) use the rotate_rightmost_digits method from the previous exercise.
 Note that you do not have to handle multiple 0s.
 
+Data:
+(735291, 6): 352917
+(352917, 5): 329175
+(329175, 4): 321759
+(321759, 3): 321597
+(321597, 2): 321579
+
 Algorithm:
 
 =end
 
-# def max_rotation(int)
+def max_rotation(int)
+  n = int.to_s.length
+  while n > 1
+    int = rotate_rightmost_digits(int, n)
+    n -= 1
+  end
+  int
+end
 
-# end
+# p max_rotation(735291) == 321579
+# p max_rotation(3) == 3
+# p max_rotation(35) == 53
+# p max_rotation(105) == 15 # the leading zero gets dropped
+# p max_rotation(8_703_529_146) == 7_321_609_845
 
-p max_rotation(735291) == 321579
-p max_rotation(3) == 3
-p max_rotation(35) == 53
-p max_rotation(105) == 15 # the leading zero gets dropped
-p max_rotation(8_703_529_146) == 7_321_609_845
+=begin
+Problem 4: 
