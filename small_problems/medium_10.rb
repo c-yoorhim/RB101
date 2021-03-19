@@ -291,3 +291,98 @@ Your program may assume that all programs are correct programs;
   that is, they won't do anything like try to pop a non-existent value from the stack, and they won't contain unknown tokens.
 You should initialize the register to 0.
 
+minilang('5 PRINT PUSH 3 PRINT ADD PRINT')
+n = 5 => register
+PRINT => 5
+PUSH: [5], register: 5
+n = 3 => register
+PRINT => 3
+ADD: 5+3, register => 8
+PRINT => 8
+# 5
+# 3
+# 8
+
+Algorithm:
+- convert string of input into arrays: LANG
+- create a variable for REGISTER
+- create a variable for STACK
+- shift from array: call it COMMAND
+  - CASE command
+    WHEN integer: return_value.to_i.to_s ==  return_value; put it into REGISTER
+         PUSH: STACK.push(REGISTER)
+         ADD: REGISTER += STACK.pop
+         SUB: REGISTER -= STACK.pop
+         MULT: register *= stack.pop
+         DIV: register, _ = register.divmod(stack.pop)
+         MOD: _, register = register.divmod(stack.pop)
+         POP: register = stack.pop
+         PRINT: register
+  
+
+=end
+require 'pry'
+def minilang(str_command)
+  lang = str_command.split
+  stack = []
+  register = 0
+  command = lang.shift.downcase
+
+  loop do
+    case command
+    when command.to_i.to_s
+      register = command.to_i
+    when "push"
+      stack.push(register)
+    when "add"
+      register += stack.pop
+    when "sub"
+      register -= stack.pop
+    when "mult" 
+      register *= stack.pop
+    when "div"
+      register, _ = register.divmod(stack.pop)
+    when "mod"
+      _, register = register.divmod(stack.pop)
+    when "pop"
+      register = stack.pop
+    when "print"
+      p register
+    end
+    break if lang.size == 0
+    command = lang.shift.downcase
+  end
+end
+
+# p minilang('PRINT')# == 0
+
+# p minilang('5 PUSH 3 MULT PRINT')# == 15
+
+# p minilang('5 PRINT PUSH 3 PRINT ADD PRINT')
+# # # 5
+# # 3
+# # 8
+
+# p minilang('5 PUSH POP PRINT')
+# # # 5
+
+# p minilang('3 PUSH 4 PUSH 5 PUSH PRINT ADD PRINT POP PRINT ADD PRINT')
+# # # 5
+# # 10
+# # 4
+# # 7
+
+# p minilang('3 PUSH PUSH 7 DIV MULT PRINT ')
+# # 6
+
+# p minilang('4 PUSH PUSH 7 MOD MULT PRINT ')
+# # 12
+
+# p minilang('-3 PUSH 5 SUB PRINT')
+# # 8
+
+# p minilang('6 PUSH')
+# # # (nothing printed; no PRINT commands)
+
+=begin
+Problem 7:  
