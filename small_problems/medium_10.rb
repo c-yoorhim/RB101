@@ -385,4 +385,48 @@ end
 # # # (nothing printed; no PRINT commands)
 
 =begin
-Problem 7:  
+Problem 7: Word to Digit
+Write a method that takes a sentence string as input, 
+and returns the same string with any sequence of the words:
+  'zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine' converted to a string of digits.
+
+input: str
+output: same str
+explicit: return the same string, but with any written out numbers from zero to nine, converted to its representive digit.
+
+Example: 
+
+
+Algorithm:
+- create an array where word number index is the digit.
+- iterate through the word array:
+  - substitute word number with associated digit in the str
+  - str.gsub(ITERATING_WORD_NUMBER, word_array.index(iterating_word_number).to_s)  
+=end
+
+WORDS_ARRAY = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine']
+
+def word_to_digit(str)
+  WORDS_ARRAY.each { |num_word| str.gsub!(num_word, WORDS_ARRAY.index(num_word).to_s) }
+  str
+end
+
+# p word_to_digit('Please call me at five five five one two three four. Thanks.') == 'Please call me at 5 5 5 1 2 3 4. Thanks.'
+
+=begin
+Problem 8: Fibonacci Numbers (Recursion)
+=end
+
+def fibonacci(n)
+  return n if n < 2
+  fibonacci(n-1) + fibonacci(n-2)
+end
+
+p fibonacci(1) == 1
+p fibonacci(2) == 1
+p fibonacci(3) == 2  
+p fibonacci(4) == 3  
+p fibonacci(5) == 5 
+p fibonacci(6) == 8  
+p fibonacci(12) == 144
+p fibonacci(20) == 6765
